@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "Vaidic Sanskar",
+    "slug": "vaidic-sanskar",
+    "scheme": "vaidicsanskar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.deificdigital.paramparauser",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Required for live video consultation with astrologers.",
+        "NSMicrophoneUsageDescription": "Required for voice calling and consultation with astrologers."
+      }
+    },
+    "android": {
+      "package": "com.deificdigital.paramparauser",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS",
+        "CALL_PHONE",
+        "POST_NOTIFICATIONS"
+      ],
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "ADD_YOUR_GOOGLE_MAPS_API_KEY_HERE"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#8B1A1A"
+        }
+      ],
+      "expo-web-browser"
+    ],
+    "extra": {
+      "agoraAppId": "aab8b8f5a8cd4469ab6e44298d9c22d9"
+    }
+  }
+}
