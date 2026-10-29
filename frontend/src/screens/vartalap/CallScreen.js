@@ -30,6 +30,7 @@ export default function CallScreen({ navigation, route }) {
   const [isSpeaker, setIsSpeaker] = useState(true);
   const [isVideoCamOff, setIsVideoCamOff] = useState(mode === 'audio');
   const [isFrontCam, setIsFrontCam] = useState(true);
+  const [liveAgoraToken, setLiveAgoraToken] = useState(null);
 
   // Modals
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -55,7 +56,14 @@ export default function CallScreen({ navigation, route }) {
       handleEndCall();
     };
 
+    const handleCallConnected = (payload) => {
+      if (payload?.agoraToken) {
+        setLiveAgoraToken(payload.agoraToken);
+      }
+    };
+
     socket.on('astro:call:ended', handleRemoteEnd);
+    socket.on('astro:call:connected', handleCallConnected);
 
     timerRef.current = setInterval(() => {
       setElapsed((prev) => {
@@ -156,6 +164,7 @@ export default function CallScreen({ navigation, route }) {
         <AgoraCallView
           channelName={channelName}
           mode={mode}
+          token={liveAgoraToken}
           isMuted={isMuted}
           isSpeaker={isSpeaker}
           isVideoCamOff={isVideoCamOff}

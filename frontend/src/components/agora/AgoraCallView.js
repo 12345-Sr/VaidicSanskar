@@ -12,6 +12,7 @@ import { WebView } from 'react-native-webview';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import colors from '../../theme/colors';
+import { SOCKET_URL } from '../../config/env';
 
 /**
  * Dynamically resolves live Agora App ID:
@@ -30,7 +31,7 @@ export const getLiveAgoraAppId = (overrideId) => {
     process.env.AGORA_APP_ID ||
     Constants?.expoConfig?.extra?.agoraAppId ||
     Constants?.manifest?.extra?.agoraAppId ||
-    'aab8b8f5a8cd4469ab6e44298d9c22d9'
+    'c24160ab909f4ab089971d527d05a89b'
   ).trim();
 };
 
@@ -40,6 +41,7 @@ export default function AgoraCallView({
   channelName = 'vartalap_room_demo',
   mode = 'video', // 'audio' | 'video'
   appId,
+  token = null,
   isMuted = false,
   isSpeaker = true,
   isVideoCamOff = false,
@@ -51,6 +53,10 @@ export default function AgoraCallView({
   onCallEnded,
 }) {
   const activeAppId = getLiveAgoraAppId(appId);
+  const backendBase = (SOCKET_URL || process.env.EXPO_PUBLIC_API_URL || 'http://localhost:4000')
+    .replace(/\/api\/partner\/?$/, '')
+    .replace(/\/api\/?$/, '')
+    .replace(/\/+$/, '');
   const webViewRef = useRef(null);
   const [callStatus, setCallStatus] = useState('connecting'); // connecting | connected | failed
   const [remoteUserJoined, setRemoteUserJoined] = useState(false);
@@ -223,6 +229,8 @@ export default function AgoraCallView({
           const APP_ID = "${activeAppId}";
           const CHANNEL = "${channelName}";
           const MODE = "${mode}";
+          let TOKEN = ${token ? JSON.stringify(token) : 'null'};
+          const BACKEND_BASE = "${backendBase}";
 
           let rtcClient = null;
           let localAudioTrack = null;
@@ -268,9 +276,25 @@ export default function AgoraCallView({
                 }
               });
 
-              // Join Channel with dynamic UID
-              const uid = Math.floor(Math.random() * 100000);
-              await rtcClient.join(APP_ID, CHANNEL, null, uid);
+              // Dynamic numeric UID for this session
+              const uid = Math.floor(Math.random() * 899999) + 100000;
+
+              // If token not provided upfront, auto-fetch from backend API /api/agora/token
+              if (!TOKEN && BACKEND_BASE) {
+                try {
+                  const res = await fetch(BACKEND_BASE + '/api/agora/token?channelName=' + encodeURIComponent(CHANNEL) + '&uid=' + uid);
+                  const data = await res.json();
+                  if (data && data.token) {
+                    TOKEN = data.token;
+                    console.log('✅ Acquired live Agora Certificate RTC Token from backend');
+                  }
+                } catch (tokenErr) {
+                  console.warn('Backend Agora Token Auto-fetch notice:', tokenErr.message);
+                }
+              }
+
+              // Join Channel with dynamic UID and token (valid token for production certificate, null for testing)
+              await rtcClient.join(APP_ID, CHANNEL, TOKEN || null, uid);
 
               // Create local tracks
               try {
