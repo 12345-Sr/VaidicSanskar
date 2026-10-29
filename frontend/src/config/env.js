@@ -19,7 +19,7 @@ const LAN_IP = '192.168.1.36';
 // Determine active LAN / localhost
 const host = expoHost || devHost || (Platform.OS === 'web' ? 'localhost' : (Platform.OS === 'android' ? (expoHost || '10.0.2.2') : (expoHost || LAN_IP)));
 
-export const RENDER_BACKEND_URL = `http://${LAN_IP}:4000/api/partner/`;
+export const RENDER_BACKEND_URL = 'https://vaidic-sanskar-admin-suite.onrender.com/api/partner/';
 
 function normalizeApiUrl(url) {
   if (!url) return RENDER_BACKEND_URL;

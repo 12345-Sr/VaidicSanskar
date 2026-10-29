@@ -33,7 +33,7 @@ export default function VartalapScreen({ navigation }) {
   const fetchLiveAstrologers = async () => {
     try {
       setLoading(true);
-      const targetHost = (SOCKET_URL || API_URL || 'http://192.168.1.36:4000').replace(/\/api\/partner\/?$/, '').replace(/\/api\/?$/, '');
+      const targetHost = (SOCKET_URL || API_URL || 'https://vaidic-sanskar-admin-suite.onrender.com').replace(/\/api\/partner\/?$/, '').replace(/\/api\/?$/, '');
       let rawList = [];
 
       try {

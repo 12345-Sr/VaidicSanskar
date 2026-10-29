@@ -32,7 +32,7 @@ export default function ProductDetailScreen({ navigation, route }) {
     if (uri.startsWith('http://') || uri.startsWith('https://') || uri.startsWith('data:')) {
       return uri;
     }
-    const base = 'http://192.168.1.36:4000';
+    const base = 'https://vaidic-sanskar-admin-suite.onrender.com';
     return `${base}${uri.startsWith('/') ? '' : '/'}${uri}`;
   };
 

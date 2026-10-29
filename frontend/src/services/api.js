@@ -329,7 +329,7 @@ export const StoreService = {
     // 1. Try to fetch from active Admin suite backend (where admin adds live products)
     const adminSuiteCandidates = [
       (SOCKET_URL || '').replace(/\/+$/, '') + '/api/store/products',
-      'http://192.168.1.36:4000/api/store/products',
+      'https://vaidic-sanskar-admin-suite.onrender.com/api/store/products',
       'http://localhost:4000/api/store/products',
     ];
 
@@ -362,7 +362,7 @@ export const StoreService = {
     // 1. Try admin suite
     const adminSuiteCandidates = [
       (SOCKET_URL || '').replace(/\/+$/, '') + `/api/store/products/${idOrSlug}`,
-      `http://192.168.1.36:4000/api/store/products/${idOrSlug}`,
+      `https://vaidic-sanskar-admin-suite.onrender.com/api/store/products/${idOrSlug}`,
       'http://localhost:4000/api/store/products/' + idOrSlug,
     ];
     for (const suiteUrl of adminSuiteCandidates) {
@@ -402,7 +402,7 @@ export const StoreService = {
   checkout: async (payload) => {
     const suiteCandidates = [
       (SOCKET_URL || '').replace(/\/+$/, '') + '/api/store/checkout',
-      'http://192.168.1.36:4000/api/store/checkout',
+      'https://vaidic-sanskar-admin-suite.onrender.com/api/store/checkout',
       'http://localhost:4000/api/store/checkout',
     ];
     for (const url of suiteCandidates) {
@@ -423,7 +423,7 @@ export const StoreService = {
   createOrder: async (payload) => {
     const suiteCandidates = [
       (SOCKET_URL || '').replace(/\/+$/, '') + '/api/store/orders',
-      'http://192.168.1.36:4000/api/store/orders',
+      'https://vaidic-sanskar-admin-suite.onrender.com/api/store/orders',
       'http://localhost:4000/api/store/orders',
     ];
     for (const url of suiteCandidates) {
