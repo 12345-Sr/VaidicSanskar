@@ -5,6 +5,7 @@
 # Sensitive & Secret Files
 google-services.json
 **/google-services.json
+!frontend/google-services.json
 GoogleService-Info.plist
 **/GoogleService-Info.plist
 
