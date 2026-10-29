@@ -36,14 +36,18 @@ export default function VartalapScreen({ navigation }) {
       const targetHost = (SOCKET_URL || API_URL || 'https://vaidic-sanskar-admin-suite.onrender.com').replace(/\/api\/partner\/?$/, '').replace(/\/api\/?$/, '');
       let rawList = [];
 
+      // 1. Fetch from primary REST API (Panditji backend)
       try {
-        const fetchRes = await fetch(`${targetHost}/api/partner/discovery/role/astrologer`);
-        const json = await fetchRes.json();
-        rawList = json?.vendors || json?.astrologers || json?.data || [];
-      } catch (_) {
         const { AstroService } = await import('../../services/api');
         const res = await AstroService.astrologers();
         rawList = Array.isArray(res) ? res : (res?.vendors || res?.astrologers || res?.data || []);
+      } catch (_) {
+        // 2. Fallback to admin suite backend
+        try {
+          const fetchRes = await fetch(`${targetHost}/api/partner/discovery/role/astrologer`);
+          const json = await fetchRes.json();
+          rawList = json?.vendors || json?.astrologers || json?.data || [];
+        } catch (_) {}
       }
 
       if (rawList.length) {

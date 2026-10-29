@@ -19,7 +19,8 @@ const LAN_IP = '192.168.1.36';
 // Determine active LAN / localhost
 const host = expoHost || devHost || (Platform.OS === 'web' ? 'localhost' : (Platform.OS === 'android' ? (expoHost || '10.0.2.2') : (expoHost || LAN_IP)));
 
-export const RENDER_BACKEND_URL = 'https://vaidic-sanskar-admin-suite.onrender.com/api/partner/';
+export const RENDER_BACKEND_URL = 'https://panditjibackend-yfbr.onrender.com/api/partner/';
+export const ADMIN_SUITE_URL = 'https://vaidic-sanskar-admin-suite.onrender.com';
 
 function normalizeApiUrl(url) {
   if (!url) return RENDER_BACKEND_URL;
@@ -31,10 +32,12 @@ function normalizeApiUrl(url) {
   return `${clean}/`;
 }
 
-// Priority: process.env.EXPO_PUBLIC_API_URL -> RENDER_BACKEND_URL
+// Priority: process.env.EXPO_PUBLIC_API_URL -> RENDER_BACKEND_URL (Friend's Panditji Backend)
 const rawApiUrl = process.env.EXPO_PUBLIC_API_URL || RENDER_BACKEND_URL;
 
 export const API_URL = normalizeApiUrl(rawApiUrl);
 export const LIVE_BACKEND_URL = API_URL;
-export const SOCKET_URL = process.env.EXPO_PUBLIC_SOCKET_URL || API_URL.replace(/\/api\/partner\/?$/, '').replace(/\/api\/?$/, '');
+
+// Socket & Real-Time matchmaking engine connects to admin-suite backend
+export const SOCKET_URL = process.env.EXPO_PUBLIC_SOCKET_URL || ADMIN_SUITE_URL;
 

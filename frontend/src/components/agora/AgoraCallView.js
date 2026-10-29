@@ -53,7 +53,7 @@ export default function AgoraCallView({
   onCallEnded,
 }) {
   const activeAppId = getLiveAgoraAppId(appId);
-  const backendBase = (SOCKET_URL || process.env.EXPO_PUBLIC_API_URL || 'https://vaidic-sanskar-admin-suite.onrender.com')
+  const backendBase = (SOCKET_URL || 'https://vaidic-sanskar-admin-suite.onrender.com')
     .replace(/\/api\/partner\/?$/, '')
     .replace(/\/api\/?$/, '')
     .replace(/\/+$/, '');
